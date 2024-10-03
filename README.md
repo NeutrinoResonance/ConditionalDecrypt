@@ -10,7 +10,7 @@ After a certain integer, greater than encrypted constant, has been supplied to t
 
 TODO: the data is to be read from the Solana or Ethereum block chain.
 
-## TODO: ZKFHE
+## TODO: FHEML
 If data matches a specific ML model, data is decrypted.
 
 # Artifacts
