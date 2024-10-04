@@ -51,7 +51,7 @@ comp_table = fhe.LookupTable(
                "x_high":"encrypted",
                "y_low":"encrypted",
                "y_high":"encrypted"})
-def timer_finished_big(x_low,
+def timer_comparison(x_low,
                        x_high,
                        y_low,
                        y_high):
@@ -70,7 +70,7 @@ def timer_finished_big(x_low,
     
 
 inputset = [(0xff,)*4, ]
-circuit = timer_finished_big.compile(inputset)
+circuit = timer_comparison.compile(inputset)
 
 def test_decrypt():
     lut = comp_table_nested.flatten()
@@ -104,9 +104,9 @@ def test_decrypt():
     assert(test(0xff, 0xfe, 0xff, 0xfd) == 0)
     assert(test(0xfe, 0xff, 0xff, 0xfe) == 0)
     
-test_decrypt()
+test_compare_nocrypt()
 
-def test(circuit):
+def test_compare_encrypted(circuit):
     result = circuit.encrypt_run_decrypt(0xff, 0xff, 0xff, 0xff)
     assert(result == 1)
 
@@ -120,4 +120,4 @@ def test(circuit):
     assert(result == 0)
 
 
-test(circuit)
+test_compare_encrypted(circuit)
