@@ -72,7 +72,7 @@ def timer_comparison(x_low,
 inputset = [(0xff,)*4, ]
 circuit = timer_comparison.compile(inputset)
 
-def test_decrypt():
+def test_compare_nocrypt():
     lut = comp_table_nested.flatten()
     print("Flattened comparison lookup table:")
     print(str(lut))
