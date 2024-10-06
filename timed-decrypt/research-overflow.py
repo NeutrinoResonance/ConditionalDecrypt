@@ -185,8 +185,16 @@ def run_sub_tests():
     result = circuit.encrypt_run_decrypt(x, y)
     gen.dump_result(result)
 
+
+    gen = OperandGenerator(0x42, 0x43)
     
-    # import pdb ; pdb.set_trace()
+    x, y = gen.pack(0x43, 0x34)
+    gen.dump_args(x, y)
+    result = circuit.encrypt_run_decrypt(x, y)
+    gen.dump_result(result)
+
+    
+    import pdb ; pdb.set_trace()
 
     """
 
