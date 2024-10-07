@@ -12,7 +12,7 @@ sequenceDiagram
 Flag Source ->> Listener: Current time, encrypted with <br/>a `concrete` client/encryption<br/>(as opposed to evalutor or decryption)<br/> key
 Listener-->>Decryptor: Encrypted output of the comparison
 Note right of Decryptor: Decrypts encrypted comparison output,<br/> and derives decryption key,<br/> then attempts to decrypt shielded data
-
+```
 
 ## System Participants
 The user wishes to have some data decrypted after a certain time, without their continued involvement. To facilitate this, a _user_ will launch three other systems/nodes:
@@ -125,5 +125,3 @@ Otherwise, running nodes on [Constellation](https://github.com/edgelesssys/const
 # Artifacts
 ## Dockerfile
 The included `Dockerfile` is a decent one to explore the most reliable FHE implementations.
-
-
