@@ -1,4 +1,9 @@
 # Introduction
+The functional / witness encryption has taken on a unique direction - implementation of [Practical Homomorphic MACs for Arithmetic Circuits](https://link.springer.com/content/pdf/10.1007/978-3-642-38348-9_21.pdf) by Dario Catalano and Dario Fiore. 
+
+Instead of a `concrete` implementation, I am re-implementing an FHE framework in SymPy to support symbolic development rather than than "flying blind" with a purely numeric approach. 
+
+## Original 
 This repository contains a set of programs illustrating conditional, predicate-based, decryption - that is, decryption based on whether an input satisfies a certain set of constraints. These constraints should be able to be made as opaque and tamper-resistant as possible.
 
 We emphasize an approach that breaks the process of conditionally decrypting data up across multiple systems, each oblivious to the connection between the user and the other two. [CryptDB](https://cacm.acm.org/research/cryptdb-processing-queries-on-an-encrypted-database/) and other SMPC systems provide precedent for this idea.
