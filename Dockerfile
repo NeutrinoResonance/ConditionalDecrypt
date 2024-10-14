@@ -89,6 +89,10 @@ RUN cd ${BASE} && \
     git clone https://github.com/zama-ai/concrete.git
 RUN pip3 install concrete-python
 
+
+# Install SymPy
+pip3 install sympy
+
 ENV PYTHONPATH=${SRC_CHARM}/build:${SRC_OPENFHE_PY}/build:${PYTHONPATH}
 
 CMD ["/usr/bin/python3"]
