@@ -1,26 +1,3 @@
-import numpy as np
-
-# Define modulus for batching and polynomial degree (should be a power of 2)
-# q = 786433            # Large prime modulus for plaintext space
-# q = 2**31-1
-poly_degree = 8       # Example polynomial degree, must be a power of 2 for efficient NTT
-
-# Helper function to compute modular inverse via Extended Euclidean Algorithm
-def mod_inverse(a, m):
-    m0, x0, x1 = m, 0, 1
-    while a > 1:
-        q = a // m
-        m, a = a % m, m
-        x0, x1 = x1 - q * x0, x0
-    return x1 + m0 if x1 < 0 else x1
-
-def fnv1a_hash(data, bits):
-        hash_value = 2166136261  # 32-bit FNV offset basis
-        for byte in data:
-            hash_value ^= byte
-            hash_value = (hash_value * 16777619) & 0xFFFFFFFF
-        return hash_value & ((1 << bits) - 1)
-
 # These will support ~2**32 output values
 PRESET_MODULI = [
     0xFFFFFFFB, # 4,294,967,291
@@ -31,7 +8,7 @@ PRESET_MODULI = [
 ]
 
 class LookupTable:
-    def __init__(self, io_bits=8, tag=0xfe, modulus=PRESET_MODULI[0]):
+    def __init__(self, tag_bits = 8, io_bits={"storage": 32, "result":8}, tag=0xfe, modulus=PRESET_MODULI[0]):
         """ Returns an encrypted and somewhat authenticated lookup table
         io_bits: the number of bits in the input and output numbers
         tag: the tag used to authenticate that the check performed
@@ -40,6 +17,7 @@ class LookupTable:
         """
         
         self.tag = tag
+        self.tag_bits = tag_bits
         self.io_bits = io_bits
         self.array = []
         self.mod = modulus
@@ -58,7 +36,8 @@ class LookupTable:
     def get_outputs(self, function):
         outputs = []
         inputs = []
-        for i in range(0, 2**self.io_bits):
+        max_input_value = 2**self.io_bits["result"]
+        for i in range(0, max_input_value):
             output = function(i)
             
             inputs.append(i)
@@ -67,7 +46,8 @@ class LookupTable:
         return (inputs, outputs)
 
     def tag_outputs(self, outputs):
-        shift_idx = self.io_bits
+        # shift_idx = self.io_bits
+        shift_idx = self.io_bits["storage"] - self.tag_bits
         return [output | ((self.tag) << shift_idx) for output in outputs]
 
     def check_inverse(self, x, tagged_output, inverse):
@@ -85,7 +65,7 @@ class LookupTable:
 
         if decrypted != tagged_output:
             import pdb ; pdb.set_trace()
-    
+
     def generate(self, function):
         (inputs, outputs) = self.get_outputs(function)
         tagged_outputs = self.tag_outputs(outputs)
